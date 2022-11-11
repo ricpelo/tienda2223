@@ -1,6 +1,7 @@
 <?php session_start() ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,6 +16,7 @@
     </script>
     <title>Listado de artículos</title>
 </head>
+
 <body>
     <?php
     require '../../src/admin-auxiliar.php';
@@ -71,7 +73,7 @@
                     <th scope="col" class="py-3 px-6 text-center">Acciones</th>
                 </thead>
                 <tbody>
-                    <?php foreach ($sent as $fila): ?>
+                    <?php foreach ($sent as $fila) : ?>
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                             <td class="py-4 px-6"><?= hh($fila['codigo']) ?></td>
                             <td class="py-4 px-6"><?= hh($fila['descripcion']) ?></td>
@@ -115,6 +117,7 @@
             </div>
         </div>
     </div>
-    <script src="/js/flowbite.js"></script>
+    <script src="/js/flowbite/flowbite.js"></script>
 </body>
+
 </html>
