@@ -9,21 +9,30 @@ class Articulo
     public $descripcion;
     public $precio;
 
-    public function __construct($id, $codigo, $descripcion, $precio)
+    public function __construct(array $campos)
     {
-        $this->id = $id;
-        $this->codigo = $codigo;
-        $this->descripcion = $descripcion;
-        $this->precio = $precio;
+        $this->id = $campos['id'];
+        $this->codigo = $campos['codigo'];
+        $this->descripcion = $campos['descripcion'];
+        $this->precio = $campos['precio'];
     }
 
     public static function existe(int $id, ?PDO $pdo = null): bool
     {
+        return static::obtener($id) !== null;
+    }
+
+    public static function obtener(int $id, ?PDO $pdo = null): ?static
+    {
         $pdo = $pdo ?? conectar();
-        $sent = $pdo->prepare('SELECT COUNT(*)
+        $sent = $pdo->prepare('SELECT *
                                  FROM articulos
                                 WHERE id = :id');
         $sent->execute([':id' => $id]);
-        return $sent->fetchColumn() !== 0;
+        $fila = $sent->fetch(PDO::FETCH_ASSOC);
+        if ($fila === null) {
+            return null;
+        }
+        return new static($fila);
     }
 }
