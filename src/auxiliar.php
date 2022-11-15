@@ -1,6 +1,8 @@
 <?php
 
-require_once 'Carrito.php';
+spl_autoload_register(function ($class) {
+    require_once $class . '.php';
+});
 
 function conectar()
 {
@@ -46,4 +48,9 @@ function carrito_vacio()
     $carrito = unserialize(carrito());
 
     return $carrito->vacio();
+}
+
+function volver_admin()
+{
+    header("Location: /admin/");
 }

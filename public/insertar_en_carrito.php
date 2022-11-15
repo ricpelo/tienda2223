@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-require_once '../src/Carrito.php';
 require_once '../src/auxiliar.php';
 
 try {

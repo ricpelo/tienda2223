@@ -1,7 +1,5 @@
 <?php
 
-require_once 'Articulo.php';
-
 class Carrito
 {
     public $articulos;

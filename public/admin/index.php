@@ -19,7 +19,6 @@
 
 <body>
     <?php
-    require '../../src/admin-auxiliar.php';
     require '../../src/auxiliar.php';
 
     $pdo = conectar();
