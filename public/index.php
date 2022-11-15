@@ -21,7 +21,7 @@
     ?>
     <div class="container mx-auto">
         <div class="flex gap-2">
-            <main class="grid grid-cols-4 gap-4 justify-center justify-items-center">
+            <main class="grid grid-cols-3 gap-4 justify-center justify-items-center">
                 <?php foreach ($sent as $fila) : ?>
                     <div class="p-6 max-w-xs bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
                         <a href="#">
@@ -39,19 +39,27 @@
             </main>
 
             <?php if (!$carrito->vacio()): ?>
-                <aside class="w-64" aria-label="Sidebar">
+                <aside class="flex flex-col items-center w-3/5" aria-label="Sidebar">
                     <div class="overflow-y-auto py-4 px-3 bg-gray-50 rounded dark:bg-gray-800">
-                        <ul class="space-y-2">
-                            <?php foreach ($carrito->getArticulos() as $articulo => $cantidad): ?>
-                                <li>
-                                    <span class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                                        <span class="ml-3"><?= $articulo ?></span>
-                                        <span class="ml-3"><?= $cantidad ?></span>
-                                    </span>
-                                </li>
-                            <?php endforeach ?>
-                        </ul>
+                        <table class="mx-auto text-sm text-left text-gray-500 dark:text-gray-400">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <th scope="col" class="py-3 px-6">Descripción</th>
+                                <th scope="col" class="py-3 px-6">Cantidad</th>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($carrito->articulos() as $id => $pareja): ?>
+                                    <?php [$articulo, $cantidad] = $pareja ?>
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                        <td class="py-4 px-6"><?= $articulo->descripcion ?></td>
+                                        <td class="py-4 px-6 text-center"><?= $cantidad ?></td>
+                                    </tr>
+                                    <?php endforeach ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
                         <a href="/vaciar_carrito.php" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Vaciar carrito</a>
+                        <a href="/comprar.php" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-900">Comprar</a>
                     </div>
                 </aside>
             <?php endif ?>
