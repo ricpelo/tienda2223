@@ -20,10 +20,10 @@
     $sent = $pdo->query("SELECT * FROM articulos ORDER BY codigo");
     ?>
     <div class="container mx-auto">
-        <div class="flex gap-2">
-            <main class="grid grid-cols-3 gap-4 justify-center justify-items-center">
+        <div class="flex">
+            <main class="flex-1 grid grid-cols-3 gap-4 justify-center justify-items-center">
                 <?php foreach ($sent as $fila) : ?>
-                    <div class="p-6 max-w-xs bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+                    <div class="p-6 max-w-xs min-w-full bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
                         <a href="#">
                             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><?= hh($fila['descripcion']) ?></h5>
                         </a>
@@ -39,7 +39,7 @@
             </main>
 
             <?php if (!$carrito->vacio()): ?>
-                <aside class="flex flex-col items-center w-3/5" aria-label="Sidebar">
+                <aside class="flex flex-col items-center w-1/4" aria-label="Sidebar">
                     <div class="overflow-y-auto py-4 px-3 bg-gray-50 rounded dark:bg-gray-800">
                         <table class="mx-auto text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
