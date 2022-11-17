@@ -1,5 +1,9 @@
 <?php
 
+spl_autoload_register(function ($class) {
+    require_once $class . '.php';
+});
+
 function conectar()
 {
     return new PDO('pgsql:host=localhost,dbname=tienda', 'tienda', 'tienda');
@@ -23,4 +27,30 @@ function obtener_post($par)
 function obtener_parametro($par, $array)
 {
     return isset($array[$par]) ? trim($array[$par]) : null;
+}
+
+function volver()
+{
+    header('Location: /index.php');
+}
+
+function carrito()
+{
+    if (!isset($_SESSION['carrito'])) {
+        $_SESSION['carrito'] = serialize(new Carrito());
+    }
+
+    return $_SESSION['carrito'];
+}
+
+function carrito_vacio()
+{
+    $carrito = unserialize(carrito());
+
+    return $carrito->vacio();
+}
+
+function volver_admin()
+{
+    header("Location: /admin/");
 }
