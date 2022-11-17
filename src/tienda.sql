@@ -7,6 +7,14 @@ CREATE TABLE articulos (
     precio      numeric(7, 2) NOT NULL
 );
 
+DROP TABLE IF EXISTS usuarios CASCADE;
+
+CREATE TABLE usuarios (
+    id       bigserial    PRIMARY KEY,
+    usuario  varchar(255) NOT NULL UNIQUE,
+    password varchar(255) NOT NULL
+);
+
 -- Carga inicial de datos de prueba:
 
 INSERT INTO articulos (codigo, descripcion, precio)
@@ -17,3 +25,6 @@ INSERT INTO articulos (codigo, descripcion, precio)
            ('51786128435', 'Disco duro SSD 500 GB', 150.30),
            ('83745228673', 'Tigretón', 50.10),
            ('51786198495', 'Disco duro SSD 500 GB', 150.30);
+
+INSERT INTO usuarios (usuario, password)
+    VALUES ('pepe', crypt('pepe', gen_salt('bf', 10)));
