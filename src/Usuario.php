@@ -11,6 +11,11 @@ class Usuario
         $this->usuario = $campos['usuario'];
     }
 
+    public function es_admin(): bool
+    {
+        return $this->usuario == 'admin';
+    }
+
     public static function obtener(int $id, ?PDO $pdo = null): ?static
     {
         $pdo = $pdo ?? conectar();
@@ -30,7 +35,7 @@ class Usuario
 
     public static function logueado(): ?static
     {
-        return isset($_SESSION['login']) ? $_SESSION['login'] : null;
+        return isset($_SESSION['login']) ? unserialize($_SESSION['login']) : null;
     }
 
     public static function comprobar($login, $password, ?PDO $pdo = null)

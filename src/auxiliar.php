@@ -11,7 +11,7 @@ function conectar()
 
 function hh($x)
 {
-    return htmlspecialchars($x, ENT_QUOTES | ENT_SUBSTITUTE);
+    return htmlspecialchars($x ?? '', ENT_QUOTES | ENT_SUBSTITUTE);
 }
 
 function obtener_get($par)
@@ -53,4 +53,9 @@ function carrito_vacio()
 function volver_admin()
 {
     header("Location: /admin/");
+}
+
+function redirigir_login()
+{
+    header('Location: /login.php');
 }

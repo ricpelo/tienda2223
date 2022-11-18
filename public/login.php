@@ -25,7 +25,7 @@
         if ($usuario = Usuario::comprobar($login, $password)) {
             // Loguear al usuario
             $_SESSION['login'] = serialize($usuario);
-            return volver();
+            return $usuario->es_admin() ? volver_admin() : volver();
         } else {
             // Mostrar error de validación
             $error = true;

@@ -21,6 +21,7 @@
     ?>
     <div class="container mx-auto">
         <?php require '../src/_menu.php' ?>
+        <?php require '../src/_alerts.php' ?>
         <div class="flex">
             <main class="flex-1 grid grid-cols-3 gap-4 justify-center justify-items-center">
                 <?php foreach ($sent as $fila) : ?>
