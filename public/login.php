@@ -24,9 +24,9 @@
             return volver();
         } else {
             // Mostrar error de validación
+
         }
     }
-
     ?>
     <div class="container mx-auto">
         <?php require '../src/_menu.php' ?>
