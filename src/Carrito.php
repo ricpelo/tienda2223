@@ -2,37 +2,32 @@
 
 class Carrito
 {
-    /**
-     * @var array $articulos Los artículos del carrito.
-     *                       Las claves son los IDs.
-     *                       Los valores son las cantidades.
-     */
-    public $articulos;
+    private array $lineas;
 
     public function __construct()
     {
-        $this->articulos = [];
+        $this->lineas = [];
     }
 
     public function insertar($id)
     {
-        if (!Articulo::existe($id)) {
+        if (!($articulo = Articulo::obtener($id))) {
             throw new ValueError('El artículo no existe.');
         }
 
-        if (isset($this->articulos[$id])) {
-            $this->articulos[$id]++;
+        if (isset($this->lineas[$id])) {
+            $this->lineas[$id]->incrCantidad();
         } else {
-            $this->articulos[$id] = 1;
+            $this->lineas[$id] = new Linea($articulo);
         }
     }
 
     public function eliminar($id)
     {
-        if (isset($this->articulos[$id])) {
-            $this->articulos[$id]--;
-            if ($this->articulos[$id] == 0) {
-                unset($this->articulos[$id]);
+        if (isset($this->lineas[$id])) {
+            $this->lineas[$id]->decrCantidad();
+            if ($this->lineas[$id]->getCantidad() == 0) {
+                unset($this->lineas[$id]);
             }
         } else {
             throw new ValueError('Artículo inexistente en el carrito');
@@ -41,31 +36,12 @@ class Carrito
 
     public function vacio(): bool
     {
-        return empty($this->articulos);
+        return empty($this->lineas);
     }
 
-    public function getArticulos(): array
+    public function getLineas(): array
     {
-        return $this->articulos;
+        return $this->lineas;
     }
 
-    public function articulos(?PDO $pdo = null): array
-    {
-        $pdo = $pdo ?? conectar();
-        $marcadores = implode(',', array_fill(0, count($this->getArticulos()), '?'));
-        $sent = $pdo->prepare("SELECT *
-                                 FROM articulos
-                                WHERE id in ($marcadores)");
-        $sent->execute(array_keys($this->getArticulos()));
-
-        $res = [];
-
-        foreach ($sent as $fila) {
-            $articulo = new Articulo($fila);
-            $id = $articulo->id;
-            $res[$id] = [$articulo, $this->getArticulos()[$id]];
-        }
-
-        return $res;
-    }
 }
