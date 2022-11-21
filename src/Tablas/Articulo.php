@@ -1,9 +1,15 @@
 <?php
 
+namespace Tablas;
+
+use PDO;
+
 require_once 'auxiliar.php';
 
-class Articulo
+class Articulo extends Modelo
 {
+    protected static string $tabla = 'articulos';
+
     public $id;
     public $codigo;
     public $descripcion;
@@ -20,17 +26,5 @@ class Articulo
     public static function existe(int $id, ?PDO $pdo = null): bool
     {
         return static::obtener($id) !== null;
-    }
-
-    public static function obtener(int $id, ?PDO $pdo = null): ?static
-    {
-        $pdo = $pdo ?? conectar();
-        $sent = $pdo->prepare('SELECT *
-                                 FROM articulos
-                                WHERE id = :id');
-        $sent->execute([':id' => $id]);
-        $fila = $sent->fetch(PDO::FETCH_ASSOC);
-
-        return $fila ? new static($fila) : null;
     }
 }

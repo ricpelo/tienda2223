@@ -1,6 +1,6 @@
 <?php
 
-class Carrito
+class Carrito extends Modelo
 {
     private array $lineas;
 

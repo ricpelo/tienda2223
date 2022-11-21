@@ -1,6 +1,6 @@
 <?php
 
-class Linea
+class Linea extends Modelo
 {
     private Articulo $articulo;
     private int $cantidad;
