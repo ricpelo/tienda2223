@@ -22,7 +22,7 @@
     $error = false;
 
     if (isset($login, $password)) {
-        if ($usuario = Usuario::comprobar($login, $password)) {
+        if ($usuario = \Tablas\Usuario::comprobar($login, $password)) {
             // Loguear al usuario
             $_SESSION['login'] = serialize($usuario);
             return $usuario->es_admin() ? volver_admin() : volver();

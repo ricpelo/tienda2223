@@ -1,5 +1,9 @@
 <?php
 
+namespace Generico;
+
+use Tablas\Articulo;
+
 class Linea extends Modelo
 {
     private Articulo $articulo;

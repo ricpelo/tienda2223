@@ -1,5 +1,10 @@
 <?php
 
+namespace Generico;
+
+use Tablas\Articulo;
+use ValueError;
+
 class Carrito extends Modelo
 {
     private array $lineas;

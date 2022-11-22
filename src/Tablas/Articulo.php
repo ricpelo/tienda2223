@@ -4,8 +4,6 @@ namespace Tablas;
 
 use PDO;
 
-require_once 'auxiliar.php';
-
 class Articulo extends Modelo
 {
     protected static string $tabla = 'articulos';
@@ -25,6 +23,6 @@ class Articulo extends Modelo
 
     public static function existe(int $id, ?PDO $pdo = null): bool
     {
-        return static::obtener($id) !== null;
+        return static::obtener($id, $pdo) !== null;
     }
 }
