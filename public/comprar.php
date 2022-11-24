@@ -22,11 +22,34 @@
     if (obtener_post('_testigo') !== null) {
         // Crear factura
         $pdo = conectar();
-        $usuario_id = \Tablas\Usuario::logueado();
+        $usuario = \Tablas\Usuario::logueado();
+        $usuario_id = $usuario->id;
+        $pdo->beginTransaction();
         $sent = $pdo->prepare('INSERT INTO facturas (usuario_id)
-                               VALUES (:usuario_id)');
+                               VALUES (:usuario_id)
+                               RETURNING id');
         $sent->execute([':usuario_id' => $usuario_id]);
+        $factura_id = $sent->fetchColumn();
+        $lineas = $carrito->getLineas();
+        $values = [];
+        $execute = [':f' => $factura_id];
+        $i = 1;
 
+        foreach ($lineas as $id => $linea) {
+            $values[] = "(:a$i, :f, :c$i)";
+            $execute[":a$i"] = $id;
+            $execute[":c$i"] = $linea->getCantidad();
+            $i++;
+        }
+
+        $values = implode(', ', $values);
+        $sent = $pdo->prepare("INSERT INTO articulos_facturas (articulo_id, factura_id, cantidad)
+                               VALUES $values");
+        $sent->execute($execute);
+        $pdo->commit();
+        $_SESSION['exito'] = 'La factura se ha creado correctamente.';
+        unset($_SESSION['carrito']);
+        return volver();
     }
 
     ?>

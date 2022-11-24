@@ -48,5 +48,4 @@ class Carrito extends Modelo
     {
         return $this->lineas;
     }
-
 }
