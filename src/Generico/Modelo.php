@@ -1,6 +1,6 @@
 <?php
 
-namespace Generico;
+namespace App\Generico;
 
 class Modelo
 {

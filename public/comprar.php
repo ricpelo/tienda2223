@@ -13,7 +13,7 @@
 <body>
     <?php require_once '../src/auxiliar.php';
 
-    if (!\Tablas\Usuario::esta_logueado()) {
+    if (!\App\Tablas\Usuario::esta_logueado()) {
         return redirigir_login();
     }
 
@@ -22,7 +22,7 @@
     if (obtener_post('_testigo') !== null) {
         // Crear factura
         $pdo = conectar();
-        $usuario = \Tablas\Usuario::logueado();
+        $usuario = \App\Tablas\Usuario::logueado();
         $usuario_id = $usuario->id;
         $pdo->beginTransaction();
         $sent = $pdo->prepare('INSERT INTO facturas (usuario_id)

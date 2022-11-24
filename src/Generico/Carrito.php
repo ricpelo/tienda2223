@@ -1,8 +1,8 @@
 <?php
 
-namespace Generico;
+namespace App\Generico;
 
-use Tablas\Articulo;
+use App\Tablas\Articulo;
 use ValueError;
 
 class Carrito extends Modelo

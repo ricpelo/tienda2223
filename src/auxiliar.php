@@ -1,14 +1,14 @@
 <?php
 
-use Generico\Carrito;
+// spl_autoload_register(function ($class) {
+//     require_once str_replace('\\', '/', $class) . '.php';
+// });
 
-spl_autoload_register(function ($class) {
-    require_once str_replace('\\', '/', $class) . '.php';
-});
+require '../vendor/autoload.php';
 
 function conectar()
 {
-    return new PDO('pgsql:host=localhost,dbname=tienda', 'tienda', 'tienda');
+    return new \PDO('pgsql:host=localhost,dbname=tienda', 'tienda', 'tienda');
 }
 
 function hh($x)
@@ -39,7 +39,7 @@ function volver()
 function carrito()
 {
     if (!isset($_SESSION['carrito'])) {
-        $_SESSION['carrito'] = serialize(new Carrito());
+        $_SESSION['carrito'] = serialize(new \App\Generico\Carrito());
     }
 
     return $_SESSION['carrito'];
