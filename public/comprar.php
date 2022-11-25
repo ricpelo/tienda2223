@@ -1,6 +1,6 @@
 <?php session_start() ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -78,10 +78,10 @@
                             <td class="py-4 px-6"><?= $articulo->descripcion ?></td>
                             <td class="py-4 px-6 text-center"><?= $cantidad ?></td>
                             <td class="py-4 px-6 text-center">
-                                <?= number_format($precio, 2, ',', ' ') . ' €' ?>
+                                <?= dinero($precio) ?>
                             </td>
                             <td class="py-4 px-6 text-center">
-                                <?= number_format($importe, 2, ',', ' ') . ' €' ?>
+                                <?= dinero($importe) ?>
                             </td>
                         </tr>
                     <?php endforeach ?>
@@ -90,7 +90,7 @@
                     <td></td>
                     <td></td>
                     <td class="text-right">Importe:</td>
-                    <td><?= number_format($total, 2, ',', ' ') . ' €' ?></td>
+                    <td><?= dinero($total) ?></td>
                 </tfoot>
             </table>
             <form action="" method="POST" class="mx-auto flex mt-4">

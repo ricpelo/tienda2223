@@ -20,4 +20,25 @@ class Modelo
 
         return $fila ? new static($fila) : null;
     }
+
+    public static function todos(
+        array $where = [],
+        array $execute = [],
+        ?PDO $pdo = null
+    ): array
+    {
+        $pdo = $pdo ?? conectar();
+        $tabla = static::$tabla;
+        $where = !empty($where)
+            ? 'WHERE ' . implode(' AND ', $where)
+            : '';
+        $sent = $pdo->prepare("SELECT * FROM $tabla $where");
+        $sent->execute($execute);
+        $filas = $sent->fetchAll(PDO::FETCH_ASSOC);
+        $res = [];
+        foreach ($filas as $fila) {
+            $res[] = new static($fila);
+        }
+        return $res;
+    }
 }

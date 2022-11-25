@@ -16,6 +16,11 @@ function hh($x)
     return htmlspecialchars($x ?? '', ENT_QUOTES | ENT_SUBSTITUTE);
 }
 
+function dinero($s)
+{
+    return number_format($s, 2, ',', ' ') . ' €';
+}
+
 function obtener_get($par)
 {
     return obtener_parametro($par, $_GET);
