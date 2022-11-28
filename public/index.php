@@ -55,7 +55,7 @@
                                     $cantidad = $linea->getCantidad();
                                     ?>
                                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                        <td class="py-4 px-6"><?= $articulo->descripcion ?></td>
+                                        <td class="py-4 px-6"><?= $articulo->getDescripcion() ?></td>
                                         <td class="py-4 px-6 text-center"><?= $cantidad ?></td>
                                     </tr>
                                 <?php endforeach ?>

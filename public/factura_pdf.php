@@ -57,7 +57,7 @@ $total = dinero($total);
 $res = <<<EOT
 <p>Factura número: {$factura->id}</p>
 
-<table border="1">
+<table border="1" class="font-sans mx-auto">
     <tr>
         <th>Código</th>
         <th>Descripción</th>
@@ -77,7 +77,8 @@ EOT;
 $mpdf = new \Mpdf\Mpdf();
 
 // Write some HTML code:
-$mpdf->WriteHTML($res);
+$mpdf->WriteHTML(file_get_contents('css/output.css'), \Mpdf\HTMLParserMode::HEADER_CSS);
+$mpdf->WriteHTML($res, \Mpdf\HTMLParserMode::HTML_BODY);
 
 // Output a PDF file directly to the browser
 $mpdf->Output();
