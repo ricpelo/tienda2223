@@ -12,7 +12,6 @@ class Usuario extends Modelo
 
     public function __construct(array $campos)
     {
-        $this->tabla = 'usuarios';
         $this->id = $campos['id'];
         $this->usuario = $campos['usuario'];
     }
@@ -49,5 +48,25 @@ class Usuario extends Modelo
         return password_verify($password, $fila['password'])
             ? new static($fila)
             : false;
+    }
+
+    public static function existe($login, ?PDO $pdo = null): bool
+    {
+        return $login == '' ? false :
+            !empty(static::todos(
+                ['usuario = :usuario'],
+                [':usuario' => $login],
+                $pdo
+            ));
+    }
+
+    public static function registrar($login, $password, ?PDO $pdo = null)
+    {
+        $sent = $pdo->prepare('INSERT INTO usuarios (usuario, password)
+                               VALUES (:login, :password)');
+        $sent->execute([
+            ':login' => $login,
+            ':password' => password_hash($password, PASSWORD_DEFAULT),
+        ]);
     }
 }
