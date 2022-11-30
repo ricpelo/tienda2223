@@ -1,11 +1,5 @@
 <?php
 
-// spl_autoload_register(function ($class) {
-//     require_once str_replace('\\', '/', $class) . '.php';
-// });
-
-require '../vendor/autoload.php';
-
 function conectar()
 {
     return new \PDO('pgsql:host=localhost,dbname=tienda', 'tienda', 'tienda');

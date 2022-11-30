@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <?php require_once '../src/auxiliar.php';
+    <?php require '../vendor/autoload.php';
 
     if (!\App\Tablas\Usuario::esta_logueado()) {
         return redirigir_login();
@@ -55,7 +55,7 @@
     ?>
 
     <div class="container mx-auto">
-        <?php require_once '../src/_menu.php' ?>
+        <?php require '../src/_menu.php' ?>
         <div class="overflow-y-auto py-4 px-3 bg-gray-50 rounded dark:bg-gray-800">
             <table class="mx-auto text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

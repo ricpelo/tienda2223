@@ -12,7 +12,7 @@
 
 <body>
     <?php
-    require_once '../src/auxiliar.php';
+    require '../vendor/autoload.php';
 
     $carrito = unserialize(carrito());
 

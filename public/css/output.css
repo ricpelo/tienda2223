@@ -2250,6 +2250,11 @@ input:checked + .toggle-bg {
   --tw-ring-color: rgb(119 29 29 / var(--tw-ring-opacity));
 }
 
+.dark .dark\:focus\:ring-green-800:focus {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(3 84 63 / var(--tw-ring-opacity));
+}
+
 .dark .dark\:focus\:ring-red-800:focus {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(155 28 28 / var(--tw-ring-opacity));
@@ -2258,11 +2263,6 @@ input:checked + .toggle-bg {
 .dark .dark\:focus\:ring-gray-600:focus {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(75 85 99 / var(--tw-ring-opacity));
-}
-
-.dark .dark\:focus\:ring-green-800:focus {
-  --tw-ring-opacity: 1;
-  --tw-ring-color: rgb(3 84 63 / var(--tw-ring-opacity));
 }
 
 @media (min-width: 640px) {
