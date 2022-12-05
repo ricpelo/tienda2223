@@ -3,7 +3,7 @@ session_start();
 
 use App\Tablas\Factura;
 
-require_once '../src/auxiliar.php';
+require '../vendor/autoload.php';
 
 if (!($usuario = \App\Tablas\Usuario::logueado())) {
     return volver();

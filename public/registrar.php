@@ -16,7 +16,7 @@ use App\Tablas\Usuario;
 
 <body>
     <?php
-    require_once '../src/auxiliar.php';
+    require '../vendor/autoload.php';
 
     $login = obtener_post('login');
     $password = obtener_post('password');

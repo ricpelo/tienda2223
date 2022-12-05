@@ -16,7 +16,7 @@ use App\Tablas\Usuario;
 </head>
 
 <body>
-    <?php require_once '../src/auxiliar.php';
+    <?php require '../vendor/autoload.php';
 
     if (!\App\Tablas\Usuario::esta_logueado()) {
         return redirigir_login();
