@@ -1,4 +1,7 @@
 <?php
+
+use App\Tablas\Articulo;
+
 session_start();
 
 require '../vendor/autoload.php';
@@ -7,6 +10,17 @@ try {
     $id = obtener_get('id');
 
     if ($id === null) {
+        return volver();
+    }
+
+    $articulo = Articulo::obtener($id);
+
+    if ($articulo === null) {
+        return volver();
+    }
+
+    if ($articulo->getStock() <= 0) {
+        $_SESSION['error'] = 'No hay existencias suficientes.';
         return volver();
     }
 

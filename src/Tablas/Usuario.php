@@ -9,11 +9,13 @@ class Usuario extends Modelo
 
     public $id;
     public $usuario;
+    public $validado;
 
     public function __construct(array $campos)
     {
         $this->id = $campos['id'];
         $this->usuario = $campos['usuario'];
+        $this->validado = $campos['validado'];
     }
 
     public function es_admin(): bool
@@ -62,8 +64,8 @@ class Usuario extends Modelo
 
     public static function registrar($login, $password, ?PDO $pdo = null)
     {
-        $sent = $pdo->prepare('INSERT INTO usuarios (usuario, password)
-                               VALUES (:login, :password)');
+        $sent = $pdo->prepare('INSERT INTO usuarios (usuario, password, validado)
+                               VALUES (:login, :password, false)');
         $sent->execute([
             ':login' => $login,
             ':password' => password_hash($password, PASSWORD_DEFAULT),

@@ -48,4 +48,14 @@ class Carrito extends Modelo
     {
         return $this->lineas;
     }
+
+    public function getIds(): array
+    {
+        return array_keys($this->lineas);
+    }
+
+    public function getLinea($id): Linea
+    {
+        return $this->lineas[$id];
+    }
 }
