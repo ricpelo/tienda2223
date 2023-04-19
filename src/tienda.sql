@@ -8,6 +8,29 @@ CREATE TABLE articulos (
     stock       int           NOT NULL
 );
 
+DROP TABLE IF EXISTS categorias CASCADE;
+
+CREATE TABLE categorias (
+    id          bigserial   PRIMARY KEY,
+    nombre      varchar(25) NOT NULL UNIQUE
+);
+
+INSERT INTO categorias (nombre)
+    VALUES ('Electrodomesticos'),
+            ('Alimentos'),
+            ('Otros');
+
+
+
+DROP TABLE IF EXISTS articulos_usuarios CASCADE;
+
+CREATE TABLE articulos_usuarios (
+    articulo_id bigint NOT NULL REFERENCES articulos (id),
+    usuario_id bigint NOT NULL REFERENCES usuarios (id),
+    nota       int    NOT NULL,
+    PRIMARY KEY (articulo_id, usuario_id)
+);
+
 DROP TABLE IF EXISTS usuarios CASCADE;
 
 CREATE TABLE usuarios (
@@ -47,4 +70,6 @@ INSERT INTO articulos (codigo, descripcion, precio, stock)
 
 INSERT INTO usuarios (usuario, password, validado)
     VALUES ('admin', crypt('admin', gen_salt('bf', 10)), true),
-           ('pepe', crypt('pepe', gen_salt('bf', 10)), false);
+           ('pepe', crypt('pepe', gen_salt('bf', 10)), false),
+           ('juan', crypt('juan', gen_salt('bf', 10)), true),
+           ('jose', crypt('jose', gen_salt('bf', 10)), true);

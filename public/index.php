@@ -1,4 +1,8 @@
-<?php session_start() ?>
+<?php
+
+use App\Tablas\Usuario;
+
+ session_start() ?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -15,14 +19,54 @@
     require '../vendor/autoload.php';
 
     $carrito = unserialize(carrito());
-
+    $where = [];
+    $nota = obtener_get('nota');
+    $articulo_id = obtener_get(('id_art'));
+    $usuario = \App\Tablas\Usuario::logueado();
+    $usuario_id = $usuario->id;
+    
     $pdo = conectar();
+    if (isset($nota) && isset($articulo_id) && isset($usuario_id) && $nota != '' && $usuario_id != '' && $articulo_id != '' && $nota != null & $articulo_id != null & $usuario_id != null){
+        
+        $sent4 = $pdo->prepare('SELECT COUNT(articulo_id) FROM articulos_usuarios WHERE articulo_id = :articulo_id AND usuario_id = :usuario_id');
+        $sent4->execute([':usuario_id' => $usuario_id, ':articulo_id' => $articulo_id,]);
+        $count = $sent4->fetchColumn();
+        if ($count != 0){
+            $sent5 = $pdo->prepare('UPDATE articulos_usuarios SET nota = :nota WHERE usuario_id = :usuario_id AND articulo_id = :articulo_id');
+            $sent5->execute([':nota' => $nota, ':articulo_id' => $articulo_id, ':usuario_id' => $usuario_id ]);
+        }
+        else{
+        $sent3 = $pdo->prepare("INSERT INTO articulos_usuarios (articulo_id, usuario_id, nota) VALUES ( :articulo_id, :usuario_id, :nota)");
+        $sent3->execute([':nota' => $nota, ':articulo_id' => $articulo_id, ':usuario_id' => $usuario_id ]);
+        }
+    };
+    
     $sent = $pdo->query("SELECT * FROM articulos ORDER BY codigo");
+
     ?>
+
     <div class="container mx-auto">
         <?php require '../src/_menu.php' ?>
         <?php require '../src/_alerts.php' ?>
         <div class="flex">
+            
+
+        <?= $nota ?>
+        <?= $articulo_id ?>
+        <?= $usuario_id ?>
+
+        <form action="" method="GET">
+            <select name="id" id="id">
+            <?php foreach ($sent2 as $fila2) : ?>
+                <option value="<?= $fila2['id'] ?>"><?= $fila2['nombre_categoria'] ?></option>
+                <?php endforeach ?>
+            </select>
+            <button type="submit" class="inline-flex items-center py-2 px-3.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Buscar</button>
+        </form>
+
+
+
+
             <main class="flex-1 grid grid-cols-3 gap-4 justify-center justify-items-center">
                 <?php foreach ($sent as $fila) : ?>
                     <div class="p-6 max-w-xs min-w-full bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
@@ -31,6 +75,44 @@
                         </a>
                         <p class="mb-3 font-normal text-gray-700 dark:text-gray-400"><?= hh($fila['descripcion']) ?></p>
                         <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Existencias: <?= hh($fila['stock']) ?></p>
+                        <br>
+                        <p>Nota del producto: </p> 
+                            <?php 
+                            $sent7 = $pdo->prepare('SELECT COUNT(articulo_id) FROM articulos_usuarios GROUP BY articulo_id HAVING articulo_id = :articulo_id');
+                            $sent7->execute([':articulo_id' => $fila['id']]);
+                            $count2 = $sent7->fetchColumn();
+                            if ($count == 0) {
+                                echo "<p>Este producto aun no fue evaluado</p>";
+                            }
+                            else{
+                                $sent8 = $pdo->prepare('SELECT ROUND(AVG(nota),2) FROM articulos_usuarios GROUP BY articulo_id HAVING articulo_id = :articulo_id');
+                                $sent8->execute([':articulo_id' => $fila['id']]);
+                                $nota_actual = $sent8->fetchColumn();
+                                echo "<p>$nota_actual</p>";
+                            }
+                        
+
+                        ?>
+                        
+                        <form action="" method="GET">
+                        <select name="nota" id="nota">
+                                <?php
+                                        foreach (range(0, 5) as $num) {
+                                echo "<option value='$num'>$num</option>";
+                                    }
+                                ?>
+                        <input type="hidden" name="id_art" value="<?=hh($fila['id'])?>">
+                        </select>
+                        
+                        <?php if (\App\Tablas\Usuario::esta_logueado()) :?>
+
+                        <button type="submit" class="inline-flex items-center py-2 px-3.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Enviar</button>
+                        <?php else: ?>
+                        <button class="inline-flex items-center py-2 px-3.5 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">No esta logueado</button>
+                        <?php endif ?>
+                        </form>
+                        <br>
+                        
                         <?php if ($fila['stock'] > 0): ?>
                             <a href="/insertar_en_carrito.php?id=<?= $fila['id'] ?>" class="inline-flex items-center py-2 px-3.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                 Añadir al carrito
