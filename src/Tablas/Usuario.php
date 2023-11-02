@@ -33,7 +33,7 @@ class Usuario extends Modelo
         return isset($_SESSION['login']) ? unserialize($_SESSION['login']) : null;
     }
 
-    public static function comprobar($login, $password, ?PDO $pdo = null)
+    public static function comprobar($login, $password, ?PDO $pdo = null): static|bool
     {
         $pdo = $pdo ?? conectar();
 

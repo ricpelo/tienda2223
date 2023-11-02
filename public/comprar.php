@@ -21,16 +21,16 @@
 
     if (obtener_post('_testigo') !== null) {
         $pdo = conectar();
-        $sent = $pdo->prepare('SELECT *
-                                 FROM articulos
-                                WHERE id IN (:ids)');
-        $sent->execute([':ids' => implode(', ', $carrito->getIds())]);
-        foreach ($sent->fetchAll(PDO::FETCH_ASSOC) as $fila) {
-            if ($fila['stock'] < $carrito->getLinea($fila['id'])->getCantidad()) {
-                $_SESSION['error'] = 'No hay existencias suficientes para crear la factura.';
-                return volver();
-            }
-        }
+        // $sent = $pdo->prepare('SELECT *
+        //                          FROM articulos
+        //                         WHERE id IN (:ids)');
+        // $sent->execute([':ids' => implode(', ', $carrito->getIds())]);
+        // foreach ($sent->fetchAll(PDO::FETCH_ASSOC) as $fila) {
+        //     if ($fila['stock'] < $carrito->getLinea($fila['id'])->getCantidad()) {
+        //         $_SESSION['error'] = 'No hay existencias suficientes para crear la factura.';
+        //         return volver();
+        //     }
+        // }
         // Crear factura
         $usuario = \App\Tablas\Usuario::logueado();
         $usuario_id = $usuario->id;
@@ -56,13 +56,13 @@
         $sent = $pdo->prepare("INSERT INTO articulos_facturas (articulo_id, factura_id, cantidad)
                                VALUES $values");
         $sent->execute($execute);
-        foreach ($lineas as $id => $linea) {
-            $cantidad = $linea->getCantidad();
-            $sent = $pdo->prepare('UPDATE articulos
-                                      SET stock = stock - :cantidad
-                                    WHERE id = :id');
-            $sent->execute([':id' => $id, ':cantidad' => $cantidad]);
-        }
+        // foreach ($lineas as $id => $linea) {
+        //     $cantidad = $linea->getCantidad();
+        //     $sent = $pdo->prepare('UPDATE articulos
+        //                               SET stock = stock - :cantidad
+        //                             WHERE id = :id');
+        //     $sent->execute([':id' => $id, ':cantidad' => $cantidad]);
+        // }
         $pdo->commit();
         $_SESSION['exito'] = 'La factura se ha creado correctamente.';
         unset($_SESSION['carrito']);
